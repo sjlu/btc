@@ -1,5 +1,6 @@
 var assert = require('assert');
 var expect = require('chai').expect;
+var moment = require('moment');
 
 var coinbase = require('../lib/coinbase');
 
@@ -11,4 +12,13 @@ describe('coinbase', function() {
       done();
     })
   });
+
+  it('should get some trades', function(done) {
+    this.timeout(60000);
+    coinbase.getTrades(30000, function(err, trades) {
+      expect(err).to.be.null;
+      expect(trades).to.be.object;
+      done();
+    });
+  })
 });
