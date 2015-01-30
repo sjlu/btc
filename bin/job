@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+var jobs = require('../lib/jobs')
+var winston = require('../lib/winston');
+
+process.argv.shift();
+process.argv.shift();
+var jobName = process.argv[0];
+process.argv.shift();
+
+var data = {};
+process.argv.forEach(function(paramater) {
+  var parts = paramater.split("=");
+  data[parts[0]] = parts[1];
+})
+
+winston.info("running job", {
+  name: jobName,
+  data: data
+});
+
+jobs.create(jobName, data).save(function(err) {
+  if(err) {
+    winston.error(err);
+    process.exit(1);
+  } else {
+    process.exit(0);
+  }
+});
