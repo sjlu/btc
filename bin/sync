@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+var models = require('../lib/models');
+var async = require('async');
+var winston = require('../lib/winston');
+var _ = require('lodash');
+
+async.each(_.values(models), function(m, cb) {
+  m.sync().then(function() {
+    cb();
+  }).catch(cb);
+}, function(err) {
+  if (err) {
+    return winston.error(err);
+    process.exit(1);
+  }
+  winston.info('table sync complete');
+  process.exit(0);
+});
