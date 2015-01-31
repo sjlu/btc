@@ -2,6 +2,8 @@ var models = require('../lib/models');
 var coinbase = require('../lib/coinbase');
 var async = require('async');
 var winston = require('../lib/winston');
+var moment = require('moment');
+var _ = require('lodash');
 
 module.exports = function(job, done) {
 
@@ -18,9 +20,18 @@ module.exports = function(job, done) {
     });
     coinbase.getTrades(startAt, function(err, coinbaseTrades) {
       if (err) return done(err);
-      async.each(coinbaseTrades, function(coinbaseTrade, cb) {
-        models.Trade.createFromCoinbase(coinbaseTrade, cb);
-      }, done);
+      var formattedTrades = _.map(coinbaseTrades, function(coinbaseTrade) {
+        return {
+          time: moment(coinbaseTrade.time).valueOf(),
+          trade_id: coinbaseTrade.trade_id,
+          price: coinbaseTrade.price,
+          size: coinbaseTrade.size
+        }
+      });
+
+      models.Trade.bulkCreate(formattedTrades).then(function() {
+        done();
+      }).catch(done);
     });
   }).catch(done);
 
