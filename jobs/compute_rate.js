@@ -2,6 +2,7 @@ var _ = require('lodash');
 var moment = require('moment');
 var models = require('../lib/models');
 var async = require('async');
+var winston = require('winston');
 
 module.exports = function(job, done) {
   var granularity = 3600;
@@ -15,8 +16,8 @@ module.exports = function(job, done) {
     var frameEnd = moment(frameStart).add(granularity, 'seconds');
 
     frames.push({
-      start: frameStart.valueOf(),
-      end: frameEnd.valueOf()
+      start: frameStart,
+      end: frameEnd
     });
 
     framePtr.subtract(granularity, 'seconds');
@@ -27,12 +28,17 @@ module.exports = function(job, done) {
     models.Trade.findAll({
       where: {
         time: {
-          gte: frame.start,
-          lt: frame.end
+          gte: frame.start.valueOf(),
+          lt: frame.end.valueOf()
         }
       },
       order: 'time asc'
     }).then(function(trades) {
+      winston.info('creating rate', {
+        time: frame.start.format('MM/DD/YYYY hh:mm'),
+        trades: trades.length
+      })
+
       var open = _.first(trades).price;
       var close = _.last(trades).price;
       var low = _.min(trades, function(t) {
@@ -45,19 +51,31 @@ module.exports = function(job, done) {
         return memo + trade.size;
       }, 0);
 
-      var rate = models.Rate.build({
-        time: frame.start,
-        granularity: granularity,
-        open: open,
-        close: close,
-        low: low,
-        high: high,
-        volume: volume
-      });
+      models.Rate.find({
+        where: {
+          time: frame.start.valueOf(),
+          granularity: granularity
+        }
+      }).then(function(rate) {
+        if (!rate) {
+          rate = models.Rate.build({
+            time: frame.start.valueOf(),
+            granularity: granularity
+          });
+        }
 
-      rate.save().then(function(){
-        cb();
+        rate.open = open;
+        rate.close = close;
+        rate.low = low;
+        rate.high = high;
+        rate.volume = volume;
+
+        rate.save().then(function(){
+          cb();
+        }).catch(cb);
       }).catch(cb);
+
+
     }).catch(cb);
   }, done);
 
