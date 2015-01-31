@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+var worker = require('../worker');
+
+process.send('online');
+process.on('message', function(message) {
+ if (message === 'shutdown') {
+   process.exit(0);
+ }
+});

@@ -1,4 +1,7 @@
 var models = require('../lib/models');
+var coinbase = require('../lib/coinbase');
+var async = require('async');
+var winston = require('../lib/winston');
 
 module.exports = function(job, done) {
 
@@ -10,7 +13,15 @@ module.exports = function(job, done) {
     if (trade) {
       startAt = trade.trade_id;
     }
-
-  }).error(done);
+    winston.info('syncing coinbase trades', {
+      upTo: startAt
+    });
+    coinbase.getTrades(startAt, function(err, coinbaseTrades) {
+      if (err) return done(err);
+      async.each(coinbaseTrades, function(coinbaseTrade, cb) {
+        models.Trade.createFromCoinbase(coinbaseTrade, cb);
+      }, done);
+    });
+  }).catch(done);
 
 }

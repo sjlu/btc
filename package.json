@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/web",
+    "web": "./node_modules/node-dev/bin/node-dev ./bin/web",
+    "worker": "./node_modules/node-dev/bin/node-dev ./bin/worker",
     "test": "mocha"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "chai": "^1.10.0",
-    "mocha": "^2.1.0"
+    "mocha": "^2.1.0",
+    "node-dev": "^2.6.0"
   }
 }
