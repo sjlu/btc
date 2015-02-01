@@ -7,6 +7,27 @@ var winston = require('../lib/winston');
 
 var averages = {}
 
+var cloneAndFlip = function(rates) {
+  rates = _.map(rates, function(r) {
+    return r.toJSON();
+  })
+  rates.reverse();
+  return rates;
+}
+
+var determinePercent = function(rates) {
+  return 2 / (rates.length + 1)
+}
+
+var ema = function(percent, value, prevValue) {
+  return prevValue + percent * (value - prevValue);
+  // return (value * percent) + (prevValue * (1 - percent));
+}
+
+var dema = function(ema, emaofema) {
+  return 2 * ema - emaofema;
+}
+
 averages.sma = function(rates) {
   var sum = 0;
   for (var i = 0; i < rates.length; i++) {
@@ -16,12 +37,8 @@ averages.sma = function(rates) {
 }
 
 averages.ema = function(rates) {
-  rates = _.map(rates, function(r) {
-    return r.toJSON();
-  })
-  rates.reverse();
-
-  var percent = 2 / (rates.length + 1);
+  rates = cloneAndFlip(rates);
+  var percent = determinePercent(rates);
 
   var emas = [];
   for (var i = 0; i < rates.length; i++) {
@@ -30,19 +47,40 @@ averages.ema = function(rates) {
       continue;
     }
 
-    console.log(rates[i]);
-
-    emas.push((rates[i].close * percent) + (emas[i - 1] * (1 - percent)));
+    emas.push(ema(percent, rates[i].close, emas[i-1]));
   }
 
   return _.last(emas);
+}
+
+averages.dema = function(rates) {
+  rates = cloneAndFlip(rates);
+  var percent = determinePercent(rates);
+
+  var emas = []
+  var emaofemas = [];
+  var demas = [];
+  for (var i = 0; i < rates.length; i++) {
+    if (i === 0) {
+      emas.push(rates[i].close);
+      emaofemas.push(rates[i].close);
+      demas.push(rates[i].close);
+      continue;
+    }
+
+    emas.push(ema(percent, rates[i].close, emas[i-1]));
+    emaofemas.push(ema(percent, emas[i], emaofemas[i-1]));
+    demas.push(dema(emas[i], emaofemas[i]))
+  }
+
+  return _.last(demas);
 }
 
 module.exports = function(job, done) {
 
   var depth = parseInt(job.data.depth);
   var granularity = job.data.granularity;
-  var type = 'ema';
+  var type = job.data.type;
 
   models.Rate.findAll({
     where: {

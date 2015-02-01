@@ -36,6 +36,7 @@
     "morgan": "~1.0.0",
     "mysql": "^2.5.4",
     "nib": "^1.1.0",
+    "node-schedule": "^0.1.15",
     "redis": "^0.12.1",
     "request": "^2.51.0",
     "sequelize": "^2.0.0-rc8",

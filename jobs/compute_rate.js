@@ -77,5 +77,4 @@ module.exports = function(job, done) {
       }).catch(cb);
     }).catch(cb);
   }, done);
-
 }

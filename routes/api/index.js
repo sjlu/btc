@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-router.use('/averages', require('./averages'));
+router.use('/charts', require('./charts'));
 
 module.exports = router;
