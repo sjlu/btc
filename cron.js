@@ -3,7 +3,7 @@ var jobs = require('./lib/jobs');
 var async = require('async');
 
 schedule.scheduleJob('* * * * *', function() {
-  jobs.create('sync_trades', {}).save(cb);
+  jobs.create('sync_trades', {}).save();
 });
 
 schedule.scheduleJob('*/5 * * * *', function() {
