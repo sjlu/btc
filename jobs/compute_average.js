@@ -5,10 +5,44 @@ var async = require('async');
 var _ = require('lodash');
 var winston = require('../lib/winston');
 
+var averages = {}
+
+averages.sma = function(rates) {
+  var sum = 0;
+  for (var i = 0; i < rates.length; i++) {
+    sum += rates[i].close;
+  }
+  return i / rates.length;
+}
+
+averages.ema = function(rates) {
+  rates = _.map(rates, function(r) {
+    return r.toJSON();
+  })
+  rates.reverse();
+
+  var percent = 2 / (rates.length + 1);
+
+  var emas = [];
+  for (var i = 0; i < rates.length; i++) {
+    if (i === 0) {
+      emas.push(rates[i].close);
+      continue;
+    }
+
+    console.log(rates[i]);
+
+    emas.push((rates[i].close * percent) + (emas[i - 1] * (1 - percent)));
+  }
+
+  return _.last(emas);
+}
+
 module.exports = function(job, done) {
 
   var depth = parseInt(job.data.depth);
   var granularity = 3600;
+  var type = 'ema';
 
   models.Rate.findAll({
     where: {
@@ -20,16 +54,14 @@ module.exports = function(job, done) {
     async.each(_.range(0, depth), function(i, cb) {
       var time = rates[i].time;
 
-      var sum = 0;
-      for (var c = i; c < i + depth; c++) {
-        sum += rates[c].close;
-      }
+      var averageFunc = averages[type];
+      var value = averageFunc(rates.slice(i, i + depth));
 
       var baseObj = {
         time: time,
         granularity: granularity,
         depth: depth,
-        type: 'sma'
+        type: type
       };
 
       models.Average.find({
@@ -39,7 +71,7 @@ module.exports = function(job, done) {
           average = models.Average.build(baseObj);
         }
 
-        average.value = sum / depth;
+        average.value = value;
 
         average.save().then(function() {
           cb();
