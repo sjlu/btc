@@ -12,5 +12,12 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "twitter": "~3.3.2",
+    "font-awesome": "~4.3.0",
+    "angular": "~1.3.11",
+    "angular-route": "~1.3.11",
+    "n3-line-chart": "~1.1.4"
+  }
 }

@@ -41,7 +41,7 @@ averages.ema = function(rates) {
 module.exports = function(job, done) {
 
   var depth = parseInt(job.data.depth);
-  var granularity = 3600;
+  var granularity = job.data.granularity;
   var type = 'ema';
 
   models.Rate.findAll({

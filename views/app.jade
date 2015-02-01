@@ -1,0 +1,17 @@
+extends ./layout
+
+block body
+  div(ng-app="#{name}")
+    div.container
+      div(ng-view)
+
+block scripts
+  script(src="/bower_components/angular/angular.min.js")
+  script(src="/bower_components/angular-route/angular-route.min.js")
+  script(src="/bower_components/d3/d3.min.js")
+  script(src="/bower_components/n3-line-chart/dist/line-chart.min.js")
+  script(src="/bower_components/moment/min/moment.min.js")
+  script(src="/build/#{name}/templates.js")
+  script
+    | window.#{name} = angular.module('#{name}', ['ngRoute', 'templates', 'n3-line-chart']);
+  script(src="/build/#{name}/app.js")

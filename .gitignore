@@ -3,3 +3,5 @@ node_modules
 log
 *.pid
 .env
+public/bower_components
+public/build
