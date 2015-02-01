@@ -3,12 +3,13 @@ var moment = require('moment');
 var models = require('../lib/models');
 var async = require('async');
 var winston = require('winston');
+var time = require('../lib/time');
 
 module.exports = function(job, done) {
-  var granularity = 3600;
+  var granularity = job.data.granularity;
   var numberOfFrames = job.data.frames;
 
-  var framePtr = moment().startOf('hour').subtract(1, 'hour');
+  var framePtr = moment(time.getClosestTime(granularity)).subtract(granularity, 'seconds');
   var count = 0;
   var frames = [];
   while(count < numberOfFrames) {
@@ -74,8 +75,6 @@ module.exports = function(job, done) {
           cb();
         }).catch(cb);
       }).catch(cb);
-
-
     }).catch(cb);
   }, done);
 
