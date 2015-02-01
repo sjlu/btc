@@ -5,6 +5,23 @@
   "scripts": {
     "web": "./node_modules/node-dev/bin/node-dev ./bin/web",
     "worker": "./node_modules/node-dev/bin/node-dev ./bin/worker",
+    "cron": "./node_modules/node-dev/bin/node-dev ./bin/cron",
+    "build": "./node_modules/gulp/bin/gulp.js",
+    "postinstall": "./node_modules/bower/bin/bower install",
+    "deploy": "npm install; npm run build; npm run \"deploy web\"; npm run \"deploy worker\"; ./post-deploy.sh",
+    "deploy web": "./deploy.sh web",
+    "deploy worker": "./deploy.sh worker",
+    "deploy cron": "./deploy.sh cron",
+    "restart web": "./node_modules/naught/lib/main.js deploy ./naught-web.ipc",
+    "restart worker": "./node_modules/naught/lib/main.js deploy ./naught-worker.ipc",
+    "restart cron": "./node_modules/naught/lib/main.js deploy ./naught-cron.ipc",
+    "start web": "./node_modules/naught/lib/main.js start --pid-file naught-web.pid --ipc-file naught-web.ipc --log ./log/naught-web.log --stdout ./log/stdout-web.log --stderr ./log/stderr-web.log bin/web",
+    "start worker": "./node_modules/naught/lib/main.js start --pid-file naught-worker.pid --ipc-file naught-worker.ipc --log ./log/naught-worker.log --stdout ./log/stdout-worker.log --stderr ./log/stderr-worker.log bin/worker",
+    "start cron": "./node_modules/naught/lib/main.js start --pid-file naught-cron.pid --ipc-file naught-cron.ipc --log ./log/naught-cron.log --stdout ./log/stdout-cron.log --stderr ./log/stderr-cron.log bin/cron",
+    "stop web": "./node_modules/naught/lib/main.js stop ./naught-web.ipc",
+    "stop worker": "./node_modules/naught/lib/main.js stop ./naught-worker.ipc",
+    "stop cron": "./node_modules/naught/lib/main.js stop ./naught-cron.ipc",
+    "gulp": "./node_modules/gulp/bin/gulp.js; ./node_modules/gulp/bin/gulp.js watch",
     "test": "mocha"
   },
   "dependencies": {
