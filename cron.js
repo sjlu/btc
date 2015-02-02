@@ -3,7 +3,7 @@ var async = require('async');
 var CronJob = require('cron').CronJob;
 var _ = require('lodash');
 
-var jobs = [];
+var cronJobs = [];
 
 var calcs = [
   'sma',
@@ -20,7 +20,7 @@ var rates = [
 var periods = _.range(8,80,8);
 
 // fast, per 12 seconds
-jobs.push(new CronJob('*/12 * * * * *', function() {
+cronJobs.push(new CronJob('*/12 * * * * *', function() {
   async.series([
     function(cb) {
       jobs.create('sync_trades', {}).save(cb);
@@ -38,7 +38,7 @@ jobs.push(new CronJob('*/12 * * * * *', function() {
 
 // ensure that the past viewable
 // frames data are guaranteed accurate
-jobs.push(new CronJob('00 */3 * * * *', function() {
+cronJobs.push(new CronJob('00 */3 * * * *', function() {
   async.each(rates, function(r, cb) {
     jobs.create('compute_rate', {
       granularity: r,
@@ -59,7 +59,7 @@ _.each(rates, function(r) {
   }
   cronTime +=' * * * *';
 
-  jobs.push(new CronJob('00 */' + minutes + ' * * * *', function() {
+  cronJobs.push(new CronJob('00 */' + minutes + ' * * * *', function() {
     var periods = [];
     _.each(calcs, function(c) {
       _.each(periods, function(p) {
