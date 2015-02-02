@@ -13,6 +13,7 @@ client.controller('tripleChart', function($scope, $http, $routeParams) {
       });
     });
   }
+  $scope.getData();
 
   $scope.chartOpts = {
     axes: {x: {type: "date", key: "time"}, y: {type: "linear"}},
