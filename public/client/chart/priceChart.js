@@ -1,4 +1,4 @@
-client.controller('priceChart', function($scope, $http, $element) {
+client.controller('priceChart', function($scope, $http, element) {
 
 
   var margin = {top: 20, right: 20, bottom: 30, left: 50},
