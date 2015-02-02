@@ -35,10 +35,10 @@ module.exports = function(job, done) {
       },
       order: 'time asc'
     }).then(function(trades) {
-      // winston.info('creating rate', {
-      //   time: frame.start.format('MM/DD/YYYY hh:mm'),
-      //   trades: trades.length
-      // })
+      winston.verbose('creating rate', {
+        time: frame.start.format('MM/DD/YYYY hh:mm'),
+        trades: trades.length
+      })
 
       var open = _.first(trades).price;
       var close = _.last(trades).price;
