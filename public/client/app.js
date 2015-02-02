@@ -4,7 +4,8 @@ client.config(['$routeProvider', '$locationProvider', function($routeProvider, $
 
   var routes = {
     '/chart/price': 'priceChart',
-    '/chart/rainbow': 'rainbowChart'
+    '/chart/rainbow': 'rainbowChart',
+    '/chart/triple': 'tripleChart'
   };
 
   for (var route in routes) {
