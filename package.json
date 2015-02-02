@@ -8,7 +8,7 @@
     "cron": "./node_modules/node-dev/bin/node-dev ./bin/cron",
     "build": "./node_modules/gulp/bin/gulp.js",
     "postinstall": "./node_modules/bower/bin/bower install",
-    "deploy": "npm install; npm run build; npm run \"deploy web\"; npm run \"deploy worker\";",
+    "deploy": "npm install; npm run build; npm run \"deploy web\"; npm run \"deploy worker\"; npm run \"deploy cron\"",
     "deploy web": "./deploy.sh web",
     "deploy worker": "./deploy.sh worker",
     "deploy cron": "./deploy.sh cron",
