@@ -49,6 +49,14 @@ new CronJob('00 */3 * * * *', function() {
 // to how frequent we actually need it
 _.each(rates, function(r) {
   var minutes = r / 60;
+  var cronTime = '00 ';
+  if (minutes > 1) {
+    cronTime += '*/' + minutes;
+  } else {
+    cronTime += '*'
+  }
+  cronTime +=' * * * *';
+
   new CronJob('00 */' + minutes + ' * * * *', function() {
     var periods = [];
     _.each(calcs, function(c) {
