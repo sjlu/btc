@@ -17,8 +17,8 @@ var rates = [
 
 var periods = _.range(8,96,8);
 
-// fast, per 3 seconds
-new CronJob('*/3 * * * * *', function() {
+// fast, per 15 seconds
+new CronJob('*/15 * * * * *', function() {
   async.series([
     function(cb) {
       jobs.create('sync_trades', {}).save(cb);
