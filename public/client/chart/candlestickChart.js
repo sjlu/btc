@@ -9,7 +9,7 @@ client.directive('candlestickChart', function () {
     link: function($scope, element, attrs){
       var margin = {top: 20, right: 20, bottom: 30, left: 50};
       var width = element[0].offsetWidth - margin.left - margin.right;
-      var height = 500 - margin.top - margin.bottom;
+      var height = 640 - margin.top - margin.bottom;
 
       var parseDate = d3.time.format("%d-%b-%y").parse;
 
