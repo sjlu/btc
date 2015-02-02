@@ -9,7 +9,7 @@ module.exports = function(job, done) {
   var granularity = job.data.granularity;
   var numberOfFrames = job.data.frames;
 
-  var framePtr = moment(time.getClosestTime(granularity)).subtract(granularity, 'seconds');
+  var framePtr = moment(time.getClosestTime(granularity));
   var count = 0;
   var frames = [];
   while(count < numberOfFrames) {
