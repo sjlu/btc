@@ -9,7 +9,7 @@ client.controller('chart', function($scope, $http) {
     tooltip: {
       mode: "scrubber",
       formatter: function (x, y, series) {
-        return series + ' : ' + moment(parseInt(x)).fromNow() + ' : ' + y;
+        return moment(parseInt(x)).fromNow() + ' : ' + y;
       }
     },
     series: [
