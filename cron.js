@@ -36,7 +36,7 @@ new CronJob('*/12 * * * * *', function() {
 
 // ensure that the past viewable
 // frames data are guaranteed accurate
-new CronJob('0 0 */3 * * *', function() {
+new CronJob('00 00 */3 * * *', function() {
   async.each(rates, function(r, cb) {
     jobs.create('compute_rate', {
       granularity: r,
@@ -49,7 +49,7 @@ new CronJob('0 0 */3 * * *', function() {
 // to how frequent we actually need it
 _.each(rates, function(r) {
   var minutes = r / 60;
-  new CronJob('0 */' + minutes + ' * * * *', function() {
+  new CronJob('00 */' + minutes + ' * * * *', function() {
     var periods = [];
     _.each(calcs, function(c) {
       _.each(periods, function(p) {
@@ -57,11 +57,11 @@ _.each(rates, function(r) {
       });
     });
 
-    async.eachSeries(periods, function(rate, cb) {
+    async.eachSeries(periods, function(period, cb) {
       jobs.create('compute_average', {
         granularity: r,
-        depth: rate[1],
-        type: rate[0]
+        depth: period[1],
+        type: period[0]
       }).save(cb);
     });
   }, null, true);
