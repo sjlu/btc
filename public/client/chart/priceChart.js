@@ -1,4 +1,4 @@
-client.controller('priceChart', function($scope, $http, element) {
+client.controller('priceChart', function($scope, $http, $element) {
 
 
   var margin = {top: 20, right: 20, bottom: 30, left: 50},
@@ -25,7 +25,7 @@ client.controller('priceChart', function($scope, $http, element) {
           .scale(y)
           .orient("left");
 
-  var svg = element.append("svg")
+  var svg = $($element).append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
