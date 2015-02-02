@@ -16,7 +16,7 @@ schedule.scheduleJob('* * * * *', function() {
   ])
 });
 
-schedule.scheduleJob('*/5 * * * *', function() {
+schedule.scheduleJob('1,16,31,46 * * * *', function() {
   var rates = [
     [900, 10, 'dema'],
     [900, 25, 'dema'],
