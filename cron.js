@@ -1,12 +1,17 @@
-var schedule = require('node-schedule');
 var jobs = require('./lib/jobs');
 var async = require('async');
+var CronJob = require('cron').CronJob;
 
-schedule.scheduleJob('* * * * *', function() {
+new CronJob('*/10 * * * * *', function() {
   async.parallel([
     function(cb) {
       jobs.create('sync_trades', {}).save(cb);
-    },
+    }
+  ])
+}, null, true);
+
+new CronJob('* */4 * * * *', function() {
+  async.parallel([
     function(cb) {
       jobs.create('compute_rate', {
         granularity: 900,
@@ -14,9 +19,9 @@ schedule.scheduleJob('* * * * *', function() {
       }).save(cb);
     }
   ])
-});
+}, null, true);
 
-schedule.scheduleJob('1,16,31,46 * * * *', function() {
+new CronJob('* */15 * * * *', function() {
   var rates = [
     [900, 8, 'dema'],
     [900, 16, 'dema'],
@@ -40,4 +45,4 @@ schedule.scheduleJob('1,16,31,46 * * * *', function() {
     }).save(cb);
   })
 
-});
+}, null, true);
