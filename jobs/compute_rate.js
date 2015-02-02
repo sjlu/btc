@@ -35,6 +35,8 @@ module.exports = function(job, done) {
       },
       order: 'time asc'
     }).then(function(trades) {
+      if (!trades || !trades.length) return cb();
+
       winston.verbose('creating rate', {
         time: frame.start.format('MM/DD/YYYY hh:mm'),
         trades: trades.length
