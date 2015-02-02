@@ -10,7 +10,7 @@ router.get('/price', function(req, res, next) {
   models.Rate.findAll({
     where: {
       granularity: 900
-    }
+    },
     order: 'time desc',
     limit: 100
   }).then(function(rates) {
