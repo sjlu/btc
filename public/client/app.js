@@ -3,7 +3,8 @@ client.config(['$routeProvider', '$locationProvider', function($routeProvider, $
   $locationProvider.html5Mode(false);
 
   var routes = {
-    '/chart': 'chart',
+    '/chart/price': 'priceChart',
+    '/chart/rainbow': 'rainbowChart'
   };
 
   for (var route in routes) {
@@ -15,7 +16,7 @@ client.config(['$routeProvider', '$locationProvider', function($routeProvider, $
   }
 
   $routeProvider.otherwise({
-    redirectTo: '/chart'
+    redirectTo: '/chart/price'
   });
 
 }]);

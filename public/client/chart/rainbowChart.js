@@ -1,4 +1,4 @@
-client.controller('chart', function($scope, $http) {
+client.controller('rainbowChart', function($scope, $http) {
   $scope.data = [];
   $http.get('/api/charts/dema/900?points=10').success(function(data) {
     $scope.data = data;

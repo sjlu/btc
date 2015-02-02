@@ -6,6 +6,18 @@ var moment = require('moment');
 var _ = require('lodash');
 var async = require('async');
 
+router.get('/price', function(req, res, next) {
+  models.Rate.findAll({
+    where: {
+      granularity: 900
+    }
+    order: 'time desc',
+    limit: 100
+  }).then(function(rates) {
+    res.json(rates);
+  }).catch(next);
+})
+
 router.get('/:type/:granularity', function(req, res, next) {
   var type = req.params.type;
   var granularity = req.params.granularity;
