@@ -15,7 +15,7 @@ var rates = [
   900
 ];
 
-var periods = _.range(8,100,8);
+var periods = _.range(8,80,8);
 
 // fast, per 12 seconds
 new CronJob('*/12 * * * * *', function() {
@@ -36,7 +36,7 @@ new CronJob('*/12 * * * * *', function() {
 
 // ensure that the past viewable
 // frames data are guaranteed accurate
-new CronJob('* * */3 * * *', function() {
+new CronJob('0 0 */3 * * *', function() {
   async.each(rates, function(r, cb) {
     jobs.create('compute_rate', {
       granularity: r,
@@ -49,7 +49,7 @@ new CronJob('* * */3 * * *', function() {
 // to how frequent we actually need it
 _.each(rates, function(r) {
   var minutes = r / 60;
-  new CronJob('* */' + minutes + ' * * * *', function() {
+  new CronJob('0 */' + minutes + ' * * * *', function() {
     var periods = [];
     _.each(calcs, function(c) {
       _.each(periods, function(p) {
