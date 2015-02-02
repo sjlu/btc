@@ -42,7 +42,7 @@ new CronJob('* * */3 * * *', function() {
       granularity: r,
       frames: _.max(periods)
     }).save(cb);
-  }, cb);
+  });
 }, null, true);
 
 // compute each average according
