@@ -62,7 +62,7 @@ router.get('/:type/:granularity', function(req, res, next) {
       return o.time;
     }).value();
 
-    res.json(averages.slice(averages.length - numberOfPoints, averages.length));
+    res.json(averages);
 
   });
 });
