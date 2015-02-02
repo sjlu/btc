@@ -1,8 +1,18 @@
-client.controller('tripleChart', function($scope, $http) {
+client.controller('tripleChart', function($scope, $http, $routeParams) {
+  $scope.rate = $routeParams.rate || 900;
+  $scope.algo = $routeParams.algo || 'dema'
   $scope.data = [];
-  $http.get('/api/charts/dema/900?points=10').success(function(data) {
-    $scope.data = data;
-  });
+
+  $scope.getData = function() {
+    $http.get('/api/charts/'+$scope.algo+'/'+$scope.rate+'?points=96').success(function(data) {
+      $scope.data = _.map(data, function(d) {
+        d.fast = d[$scope.algo+'-'+$scope.rate+'-8'];
+        d.mid = d[$scope.algo+'-'+$scope.rate+'-24'];
+        d.slow = d[$scope.algo+'-'+$scope.rate+'-40'];
+        return d;
+      });
+    });
+  }
 
   $scope.chartOpts = {
     axes: {x: {type: "date", key: "time"}, y: {type: "linear"}},
@@ -13,9 +23,9 @@ client.controller('tripleChart', function($scope, $http) {
       }
     },
     series: [
-      {y: 'dema-900-8', axis: 'y1', color: 'blue', drawDots: true, dotSize: 2, thickness: '3px'},
-      {y: 'dema-900-24', axis: 'y1', color: 'green', drawDots: true, dotSize: 2, thickness: '3px'},
-      {y: 'dema-900-40', axis: 'y1', color: 'red', drawDots: true, dotSize: 2, thickness: '3px'},
+      {y: 'fast', axis: 'y1', color: 'blue', drawDots: true, dotSize: 2, thickness: '3px'},
+      {y: 'mid', axis: 'y1', color: 'green', drawDots: true, dotSize: 2, thickness: '3px'},
+      {y: 'slow', axis: 'y1', color: 'red', drawDots: true, dotSize: 2, thickness: '3px'},
       {y: 'close', axis: 'y1', color: 'black', drawDots: true, dotSize: 2}
     ],
     stacks: [],
