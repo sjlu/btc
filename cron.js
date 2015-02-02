@@ -10,7 +10,7 @@ schedule.scheduleJob('* * * * *', function() {
     function(cb) {
       jobs.create('compute_rate', {
         granularity: 900,
-        frames: 50
+        frames: 100
       }).save(cb);
     }
   ])
