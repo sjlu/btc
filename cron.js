@@ -8,7 +8,7 @@ schedule.scheduleJob('* * * * *', function() {
       jobs.create('sync_trades', {}).save(cb);
     },
     function(cb) {
-      jobs.create('compute_rates', {
+      jobs.create('compute_rate', {
         granularity: 900,
         frames: 50
       }).save(cb);
