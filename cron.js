@@ -15,7 +15,7 @@ var rates = [
   900
 ];
 
-var periods = _.range(8,96,8);
+var periods = _.range(8,100,8);
 
 // fast, per 12 seconds
 new CronJob('*/12 * * * * *', function() {
