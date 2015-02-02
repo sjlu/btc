@@ -3,6 +3,8 @@ var async = require('async');
 var CronJob = require('cron').CronJob;
 var _ = require('lodash');
 
+var jobs = [];
+
 var calcs = [
   'sma',
   'ema',
@@ -18,7 +20,7 @@ var rates = [
 var periods = _.range(8,80,8);
 
 // fast, per 12 seconds
-new CronJob('*/12 * * * * *', function() {
+jobs.push(new CronJob('*/12 * * * * *', function() {
   async.series([
     function(cb) {
       jobs.create('sync_trades', {}).save(cb);
@@ -32,18 +34,18 @@ new CronJob('*/12 * * * * *', function() {
       }, cb);
     }
   ])
-}, null, true);
+}, null, true));
 
 // ensure that the past viewable
 // frames data are guaranteed accurate
-new CronJob('00 */3 * * * *', function() {
+jobs.push(new CronJob('00 */3 * * * *', function() {
   async.each(rates, function(r, cb) {
     jobs.create('compute_rate', {
       granularity: r,
       frames: _.max(periods)
     }).save(cb);
   });
-}, null, true);
+}, null, true));
 
 // compute each average according
 // to how frequent we actually need it
@@ -57,7 +59,7 @@ _.each(rates, function(r) {
   }
   cronTime +=' * * * *';
 
-  new CronJob('00 */' + minutes + ' * * * *', function() {
+  jobs.push(new CronJob('00 */' + minutes + ' * * * *', function() {
     var periods = [];
     _.each(calcs, function(c) {
       _.each(periods, function(p) {
@@ -72,5 +74,5 @@ _.each(rates, function(r) {
         type: period[0]
       }).save(cb);
     });
-  }, null, true);
+  }, null, true));
 });
