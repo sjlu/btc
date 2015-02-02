@@ -59,7 +59,7 @@ _.each(rates, function(r) {
   }
   cronTime +=' * * * *';
 
-  cronJobs.push(new CronJob('00 */' + minutes + ' * * * *', function() {
+  cronJobs.push(new CronJob(cronTime, function() {
     var periods = [];
     _.each(calcs, function(c) {
       _.each(periods, function(p) {
