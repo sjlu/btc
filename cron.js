@@ -36,7 +36,7 @@ new CronJob('*/12 * * * * *', function() {
 
 // ensure that the past viewable
 // frames data are guaranteed accurate
-new CronJob('00 00 */3 * * *', function() {
+new CronJob('00 */3 * * * *', function() {
   async.each(rates, function(r, cb) {
     jobs.create('compute_rate', {
       granularity: r,
