@@ -22,7 +22,7 @@ module.exports = function(job, done) {
       if (err) return done(err);
       var formattedTrades = _.map(coinbaseTrades, function(coinbaseTrade) {
         return {
-          time: moment(coinbaseTrade.time).valueOf(),
+          time: moment(new Date(coinbaseTrade.time)).valueOf(),
           trade_id: coinbaseTrade.trade_id,
           price: coinbaseTrade.price,
           size: coinbaseTrade.size
