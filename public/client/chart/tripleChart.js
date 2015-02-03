@@ -1,4 +1,4 @@
-client.controller('tripleChart', function($scope, $http, $routeParams) {
+client.controller('tripleChart', function($scope, $http, $routeParams, $timeout) {
   $scope.rate = $routeParams.rate || 900;
   $scope.algo = $routeParams.algo || 'dema'
   $scope.data = [];
@@ -14,6 +14,10 @@ client.controller('tripleChart', function($scope, $http, $routeParams) {
     });
   }
   $scope.getData();
+
+  $timeout(function() {
+    $scope.getData);
+  }, $scope.rate*1000);
 
   $scope.chartOpts = {
     axes: {x: {type: "date", key: "time"}, y: {type: "linear"}},
