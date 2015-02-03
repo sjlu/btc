@@ -90,7 +90,7 @@ module.exports = function(job, done) {
         var time = times[i];
 
         if (trends[time]) {
-          var model = times[time];
+          var model = trends[time];
           model.type = type;
           update.push(model);
           delete times[time];
