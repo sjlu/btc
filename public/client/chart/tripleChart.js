@@ -16,7 +16,7 @@ client.controller('tripleChart', function($scope, $http, $routeParams) {
   $scope.getData();
 
   setInterval(function() {
-    $scope.getData);
+    $scope.getData();
   }, $scope.rate*1000);
 
   $scope.chartOpts = {
