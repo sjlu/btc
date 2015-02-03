@@ -77,11 +77,11 @@ module.exports = function(job, done) {
 
     var update = [];
     var create = [];
-    var last = sequence[0];
     for (var i = 1; i < sequence.length; i++) {
+      var prev = sequence[i - 1];
       var curr = sequence[i];
 
-      if (last !== curr && curr !== 0) {
+      if (prev !== curr && curr !== 0) {
         var type = 'buy';
         if (curr < prev) {
           type = 'sell';
@@ -101,13 +101,15 @@ module.exports = function(job, done) {
             type: type
           }));
         }
-
-        last = curr;
       }
     }
 
     async.parallel([
       function(cb) {
+        if (!update || !update.length) {
+          return cb();
+        }
+
         async.each(update, function(m, cb) {
           m.save().then(function() {
             cb();
@@ -115,6 +117,10 @@ module.exports = function(job, done) {
         });
       },
       function(cb) {
+        if (!create || !create.length) {
+          return cb();
+        }
+
         async.each(create, function(m, cb) {
           m.save().then(function() {
             cb()
@@ -122,6 +128,11 @@ module.exports = function(job, done) {
         });
       },
       function(cb) {
+        var remove = _.values(trends);
+        if (!remove || !remove.length) {
+          return cb();
+        }
+
         async.each(_.values(trends), function(m, cb) {
           m.destroy().then(function() {
             cb();
