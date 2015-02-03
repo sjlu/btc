@@ -71,6 +71,10 @@ module.exports = function(job, done) {
     var sequence = [];
     var times = [];
     for (var i = 0; i < analyzedAverages.length; i++) {
+      // unreliable information
+      if (analyzedAverages[i].order.length !== depths.length) {
+        continue;
+      }
       sequence.push(order.analyze(analyzedAverages[i].order));
       times.push(analyzedAverages[i].time);
     }
