@@ -1,0 +1,13 @@
+div.trends
+  table.table.table-bordered
+    thead
+      th
+        | time
+      th
+        | type
+    tbody
+      tr(ng-repeat="row in data")
+        td
+          | {{row.time}}
+        td
+          | {{row.type}}
