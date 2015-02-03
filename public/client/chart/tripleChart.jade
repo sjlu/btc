@@ -1,5 +1,5 @@
 div
-  select.form-control(ng-model="algo")
+  select.form-control(ng-model="algo" ng-change="getData();")
     option(value="sma")
       | Simple Moving Average
     option(value="ema")
@@ -7,7 +7,7 @@ div
     option(value="dema")
       | Double Exponential Moving Average
 
-  select.form-control(ng-model="rate")
+  select.form-control(ng-model="rate" ng-change="getData(); setAutoRefresh()")
     option(value="60")
       | 1 minute
     option(value="300")

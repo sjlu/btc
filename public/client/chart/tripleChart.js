@@ -27,9 +27,6 @@ client.controller('tripleChart', function($scope, $http, $routeParams) {
     }, $scope.rate*1000);
   }
   $scope.setAutoRefresh();
-  $scope.$watch('rate', function() {
-    $scope.setAutoRefresh();
-  })
 
   $scope.chartOpts = {
     axes: {x: {type: "date", key: "time"}, y: {type: "linear"}},
