@@ -77,11 +77,11 @@ module.exports = function(job, done) {
 
     var update = [];
     var create = [];
+    var last = sequence[0];
     for (var i = 1; i < sequence.length; i++) {
-      var prev = sequence[i - 1];
       var curr = sequence[i];
 
-      if (prev !== curr && curr !== 0) {
+      if (last !== curr && curr !== 0) {
         var type = 'buy';
         if (curr < prev) {
           type = 'sell';
@@ -101,6 +101,8 @@ module.exports = function(job, done) {
             type: type
           }));
         }
+
+        last = curr;
       }
     }
 
