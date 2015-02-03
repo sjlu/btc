@@ -5,9 +5,13 @@ div.trends
         | time
       th
         | type
+      th
+        | price
     tbody
       tr(ng-repeat="row in data")
         td
           | {{row.time}}
         td
           | {{row.type}}
+        td
+          | {{row.price}}
