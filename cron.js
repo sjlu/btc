@@ -14,7 +14,10 @@ var calcs = [
 var rates = [
   60,
   300,
-  900
+  600,
+  900,
+  1800,
+  3600
 ];
 
 var periods = _.range(8,80,8);
