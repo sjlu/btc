@@ -15,7 +15,7 @@ describe('coinbase', function() {
 
   it('should get some trades', function(done) {
     this.timeout(60000);
-    coinbase.getTrades(30000, function(err, trades) {
+    coinbase.getTrades(9007199254740992, function(err, trades) {
       expect(err).to.be.null;
       expect(trades).to.be.object;
       done();
