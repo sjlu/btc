@@ -67,12 +67,25 @@ _.each(rates, function(r) {
   });
 
   cronJobs.push(new CronJob(cronTime, function() {
-    async.eachSeries(combos, function(combo, cb) {
-      jobs.create('compute_average', {
-        granularity: r,
-        depth: combo[1],
-        type: combo[0]
-      }).save(cb);
-    });
+    async.parallel([
+      function(cb) {
+        async.eachSeries(combos, function(combo, cb) {
+          jobs.create('compute_average', {
+            granularity: r,
+            depth: combo[1],
+            type: combo[0]
+          }).save(cb);
+        }, cb);
+      },
+      function(cb) {
+        async.eachSeries(calcs, function(c, cb) {
+          jobs.create('identify_trends', {
+            granularity: r,
+            depths: [8, 24, 40],
+            algorithm: c
+          }).save(cb);
+        });
+      }
+    ]);
   }, null, true));
 });
