@@ -18,7 +18,7 @@ module.exports = function(job, done) {
     averages: function(cb) {
       models.Average.findAll({
         where: {
-          depths: {
+          depth: {
             in: depths
           },
           granularity: granularity,
