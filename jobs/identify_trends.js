@@ -12,7 +12,8 @@ module.exports = function(job, done) {
   var algorithm = job.data.algorithm;
 
   var key = models.Trend.buildKey(algorithm, granularity, depths);
-  var start = moment(time.getClosestTime(granularity)).subtract(granularity * _.max(depths), 'seconds');
+  var end = time.getClosestTime(granularity);
+  var start = moment(end).subtract(granularity * _.max(depths), 'seconds');
 
   async.parallel({
     averages: function(cb) {
@@ -24,7 +25,8 @@ module.exports = function(job, done) {
           granularity: granularity,
           type: algorithm,
           time: {
-            gte: start.valueOf()
+            gte: start.valueOf(),
+            lt: end
           }
         }
       }).then(function(averages) {
@@ -33,7 +35,6 @@ module.exports = function(job, done) {
     },
     trends: function(cb) {
       models.Trend.findAll({
-
         where: {
           time: {
             gte: start.valueOf()
