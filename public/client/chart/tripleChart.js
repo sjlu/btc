@@ -1,4 +1,4 @@
-client.controller('tripleChart', function($scope, $http, $routeParams, $timeout) {
+client.controller('tripleChart', function($scope, $http, $routeParams) {
   $scope.rate = $routeParams.rate || 900;
   $scope.algo = $routeParams.algo || 'dema'
   $scope.data = [];
@@ -15,7 +15,7 @@ client.controller('tripleChart', function($scope, $http, $routeParams, $timeout)
   }
   $scope.getData();
 
-  $timeout(function() {
+  setInterval(function() {
     $scope.getData);
   }, $scope.rate*1000);
 
