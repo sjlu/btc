@@ -1,2 +1,18 @@
 div
+  select.form-control(ng-model="algo")
+    option(value="sma")
+      | Simple Moving Average
+    option(value="ema")
+      | Exponential Moving Average
+    option(value="dema")
+      | Double Exponential Moving Average
+
+  select.form-control(ng-model="rate")
+    option(value="60")
+      | 1 minute
+    option(value="300")
+      | 5 minutes
+    option(value="900")
+      | 15 minutes
+
   linechart(data="data" options="chartOpts")

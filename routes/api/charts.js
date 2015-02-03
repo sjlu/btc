@@ -22,7 +22,6 @@ router.get('/:type/:granularity', function(req, res, next) {
   var type = req.params.type;
   var granularity = req.params.granularity;
   var hoursAgo = req.query.hours || 6;
-  var numberOfPoints = req.query.points || 50;
 
   var start = moment(time.getClosestTime(granularity)).subtract(hoursAgo, 'hours');
   async.parallel({

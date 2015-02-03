@@ -1,10 +1,12 @@
 client.controller('tripleChart', function($scope, $http, $routeParams) {
-  $scope.rate = $routeParams.rate || 900;
-  $scope.algo = $routeParams.algo || 'dema'
+
+  $scope.rate = 60;
+  $scope.algo = 'dema';
   $scope.data = [];
 
   $scope.getData = function() {
-    $http.get('/api/charts/'+$scope.algo+'/'+$scope.rate+'?points=96').success(function(data) {
+    var hours = $scope.rate / 60;
+    $http.get('/api/charts/'+$scope.algo+'/'+$scope.rate+'?hoursAgo='+hours).success(function(data) {
       $scope.data = _.map(data, function(d) {
         d.fast = d[$scope.algo+'-'+$scope.rate+'-8'];
         d.mid = d[$scope.algo+'-'+$scope.rate+'-24'];
@@ -15,9 +17,19 @@ client.controller('tripleChart', function($scope, $http, $routeParams) {
   }
   $scope.getData();
 
-  setInterval(function() {
-    $scope.getData();
-  }, $scope.rate*1000);
+  var interval;
+  $scope.setAutoRefresh = function() {
+    if (interval) {
+      clearInterval(interval);
+    }
+    interval = setInterval(function() {
+      $scope.getData();
+    }, $scope.rate*1000);
+  }
+  $scope.setAutoRefresh();
+  $scope.$watch('rate', function() {
+    $scope.setAutoRefresh();
+  })
 
   $scope.chartOpts = {
     axes: {x: {type: "date", key: "time"}, y: {type: "linear"}},
