@@ -59,19 +59,20 @@ _.each(rates, function(r) {
   }
   cronTime +=' * * * *';
 
-  cronJobs.push(new CronJob(cronTime, function() {
-    var periods = [];
-    _.each(calcs, function(c) {
-      _.each(periods, function(p) {
-        periods.push([c, p]);
-      });
+  var combos = [];
+  _.each(calcs, function(c) {
+    _.each(periods, function(p) {
+      combos.push([c, p]);
     });
+  });
 
-    async.eachSeries(periods, function(period, cb) {
+  cronJobs.push(new CronJob(cronTime, function() {
+    var combos = [];
+    async.eachSeries(combos, function(combo, cb) {
       jobs.create('compute_average', {
         granularity: r,
-        depth: period[1],
-        type: period[0]
+        depth: combo[1],
+        type: combo[0]
       }).save(cb);
     });
   }, null, true));
