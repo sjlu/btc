@@ -114,7 +114,7 @@ module.exports = function(job, done) {
           m.save().then(function() {
             cb();
           }).catch(cb);
-        });
+        }, cb);
       },
       function(cb) {
         if (!create || !create.length) {
@@ -125,7 +125,7 @@ module.exports = function(job, done) {
           m.save().then(function() {
             cb()
           }).catch(cb);
-        });
+        }, cb);
       },
       function(cb) {
         var remove = _.values(trends);
@@ -137,7 +137,7 @@ module.exports = function(job, done) {
           m.destroy().then(function() {
             cb();
           }).catch(cb);
-        });
+        }, cb);
       }
     ], done);
   });
