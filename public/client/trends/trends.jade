@@ -13,13 +13,7 @@ div.trends
   div.form-group
     label(for="rate")
       | Frame Rate
-    select.form-control(id="rate" ng-model="rate" ng-change="getData();")
-      option(value="60")
-        | 1 minute
-      option(value="300")
-        | 5 minutes
-      option(value="900")
-        | 15 minutes
+    rate-picker(ng-model="rate" ng-change="getData();")
 
   table.table.table-bordered
     thead
