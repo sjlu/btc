@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../../lib/models');
+var async = require('async');
 
 router.get('/:key', function(req, res, next) {
   models.Trend.findAll({
