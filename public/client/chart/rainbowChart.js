@@ -1,6 +1,6 @@
 client.controller('rainbowChart', function($scope, $http) {
   $scope.data = [];
-  $http.get('/api/charts/dema/60').success(function(data) {
+  $http.get('/api/charts/dema/60?hoursAgo=3').success(function(data) {
     $scope.data = data;
   });
 
