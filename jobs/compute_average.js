@@ -89,6 +89,10 @@ module.exports = function(job, done) {
     order: 'time DESC',
     limit: depth * 2
   }).then(function(rates) {
+    if (!rates || !rates.length) {
+      return done();
+    }
+
     async.each(_.range(0, depth), function(i, cb) {
       var time = rates[i].time;
 
