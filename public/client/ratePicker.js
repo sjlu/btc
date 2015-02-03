@@ -8,9 +8,9 @@ client.directive('ratePicker', function () {
     },
     templateUrl: 'ratePicker.html',
     link: function($scope, element, attrs) {
-      $scope.invokeChange = function() {
+      $scope.$watch('ngModel', function() {
         $scope.ngChange();
-      }
+      });
     }
   }
 });
