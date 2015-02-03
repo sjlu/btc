@@ -21,7 +21,7 @@ module.exports = function(job, done) {
             in: depths
           },
           granularity: granularity,
-          type: algorithm
+          type: algorithm,
           time: {
             gte: start.valueOf()
           }
