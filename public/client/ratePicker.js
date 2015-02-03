@@ -7,6 +7,10 @@ client.directive('ratePicker', function () {
       ngChange: '&'
     },
     templateUrl: 'ratePicker.html',
-    link: function($scope, element, attrs) {}
+    link: function($scope, element, attrs) {
+      $scope.invokeChange = function() {
+        $scope.ngChange();
+      }
+    }
   }
 });

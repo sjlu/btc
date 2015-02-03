@@ -1,7 +1,7 @@
 div.form-group
   label(for="rate")
     | Frame Rate
-  select.form-control(id="rate" ng-model="ngModel" ng-change="ngChange()")
+  select.form-control(id="rate" ng-model="ngModel" ng-change="invokeChange()")
     option(value="60")
       | 1 minute
     option(value="300")
