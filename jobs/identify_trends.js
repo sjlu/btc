@@ -51,7 +51,7 @@ module.exports = function(job, done) {
     var averages = _.groupBy(data.averages, function(a) {
       return a.time;
     });
-    var trends = _.groupBy(data.trends, function(t) {
+    var trends = _.indexBy(data.trends, function(t) {
       return t.time;
     });
 
