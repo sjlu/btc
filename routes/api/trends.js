@@ -25,6 +25,7 @@ router.get('/:key', function(req, res, next) {
         cb(null, trend);
       }).catch(cb);
     }, function(err, trends) {
+      if (err) return next(err);
       res.json(trends);
     });
 
