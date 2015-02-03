@@ -4,7 +4,7 @@ client.directive('ratePicker', function () {
     require: 'ngModel',
     scope: {
       ngModel: '=',
-      ngChange: '='
+      ngChange: '&'
     },
     templateUrl: 'ratePicker.html',
     link: function($scope, element, attrs) {}
