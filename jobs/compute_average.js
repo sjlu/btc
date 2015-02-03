@@ -33,7 +33,7 @@ averages.sma = function(rates) {
   for (var i = 0; i < rates.length; i++) {
     sum += rates[i].close;
   }
-  return i / rates.length;
+  return sum / rates.length;
 }
 
 averages.ema = function(rates) {
