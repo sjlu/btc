@@ -40,7 +40,7 @@ client.controller('tripleChart', function($scope, $http, $routeParams) {
       {y: 'fast', axis: 'y1', color: 'blue', drawDots: true, dotSize: 2, thickness: '3px'},
       {y: 'mid', axis: 'y1', color: 'green', drawDots: true, dotSize: 2, thickness: '3px'},
       {y: 'slow', axis: 'y1', color: 'red', drawDots: true, dotSize: 2, thickness: '3px'},
-      {y: 'close', axis: 'y1', color: 'black', drawDots: true, dotSize: 2}
+      {y: 'close', axis: 'y1', color: 'black', drawDots: true, dotSize: 2, visible: false}
     ],
     stacks: [],
     lineMode: "linear",
