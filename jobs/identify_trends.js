@@ -30,7 +30,7 @@ module.exports = function(job, done) {
           }
         }
       }).then(function(averages) {
-        return cb(null, averages);
+        cb(null, averages);
       }).catch(cb);
     },
     trends: function(cb) {
@@ -42,7 +42,7 @@ module.exports = function(job, done) {
           key: key
         }
       }).then(function(trends) {
-        return cb(null, trends);
+        cb(null, trends);
       }).catch(cb);
     }
   }, function(err, data) {
@@ -133,7 +133,7 @@ module.exports = function(job, done) {
           return cb();
         }
 
-        async.each(_.values(trends), function(m, cb) {
+        async.each(remove, function(m, cb) {
           m.destroy().then(function() {
             cb();
           }).catch(cb);
