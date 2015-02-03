@@ -29,9 +29,9 @@ module.exports = function(job, done) {
             lt: end
           }
         }
-      }).then(function(averages) {
+      }).success(function(averages) {
         cb(null, averages);
-      }).catch(cb);
+      }).error(cb);
     },
     trends: function(cb) {
       models.Trend.findAll({
@@ -41,9 +41,9 @@ module.exports = function(job, done) {
           },
           key: key
         }
-      }).then(function(trends) {
+      }).success(function(trends) {
         cb(null, trends);
-      }).catch(cb);
+      }).error(cb);
     }
   }, function(err, data) {
     if (err) return done(err);
