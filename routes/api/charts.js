@@ -21,7 +21,7 @@ router.get('/price', function(req, res, next) {
 router.get('/:type/:granularity', function(req, res, next) {
   var type = req.params.type;
   var granularity = req.params.granularity;
-  var hoursAgo = req.query.hours || 6;
+  var hoursAgo = req.query.hoursAgo || 6;
 
   var start = moment(time.getClosestTime(granularity)).subtract(hoursAgo, 'hours');
   async.parallel({
