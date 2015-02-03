@@ -15,7 +15,7 @@ module.exports = function(job, done) {
     if (trade) {
       startAt = trade.trade_id;
     }
-    winston.info('syncing coinbase trades', {
+    winston.verbose('syncing coinbase trades', {
       upTo: startAt
     });
     coinbase.getTrades(startAt, function(err, coinbaseTrades) {
