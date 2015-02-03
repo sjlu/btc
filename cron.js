@@ -67,7 +67,6 @@ _.each(rates, function(r) {
   });
 
   cronJobs.push(new CronJob(cronTime, function() {
-    var combos = [];
     async.eachSeries(combos, function(combo, cb) {
       jobs.create('compute_average', {
         granularity: r,
