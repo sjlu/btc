@@ -12,16 +12,22 @@ router.get('/:key', function(req, res, next) {
   }).then(function(trends) {
     async.map(trends, function(trend, cb) {
 
-      models.Trade.aggregate('price', 'average', {
+      models.Trade.findAll({
         where: {
           time: {
             gte: trend.time,
             lt: trend.time + trend.granularity * 1000
           }
         }
-      }).then(function(trade) {
+      }).then(function(trades) {
+
+        var sum = 0;
+        _.each(trades, function(t) {
+          sum += t.price;
+        });
+
         trend = trend.toJSON();
-        trend.price = trade.toJSON();
+        trend.price = sum / trades.length;
         cb(null, trend);
       }).catch(cb);
     }, function(err, trends) {
