@@ -1,5 +1,5 @@
 client.controller('trends', function($scope, $http) {
-  $scope.rate = 300;
+  $scope.rate = 1800;
   $scope.algo = 'dema';
 
   $scope.getData = function() {
