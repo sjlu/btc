@@ -130,18 +130,6 @@ module.exports = function(job, done) {
             cb()
           }).catch(cb);
         }, cb);
-      },
-      function(cb) {
-        var remove = _.values(trends);
-        if (!remove || !remove.length) {
-          return cb();
-        }
-
-        async.each(remove, function(m, cb) {
-          m.destroy().then(function() {
-            cb();
-          }).catch(cb);
-        }, cb);
       }
     ], done);
   });
