@@ -48,90 +48,52 @@ module.exports = function(job, done) {
   }, function(err, data) {
     if (err) return done(err);
 
-    var averages = _.groupBy(data.averages, function(a) {
+    var groupedAverages = _.groupBy(data.averages, function(a) {
       return a.time;
     });
     var trends = _.indexBy(data.trends, function(t) {
       return t.time;
     });
 
-    var analyzedAverages = _.chain(averages).map(function(a, time) {
-      a = _.chain(a).sortBy(function(a) {
+    var saveThese = [];
+    _.each(groupedAverages, function(averages, time) {
+      if (a.length !== depths.length) {
+        return;
+      }
+
+      averages = _.sortBy(a, function(a) {
         return a.value;
-      }).pluck("depth").value();
+      });
 
-      return {
-        time: time,
-        order: a
-      };
-    }).sortBy(function(t) {
-      return t.time;
-    }).value();
+      var depthOrder = _.pluck(averages, "depth");
+      var difference = order.analyzeDeep(depthOrder);
 
-    var sequence = [];
-    var times = [];
-    for (var i = 0; i < analyzedAverages.length; i++) {
-      // unreliable information
-      if (analyzedAverages[i].order.length !== depths.length) {
-        continue;
+      var action = 'hold';
+      if (difference < 0) {
+        action = 'sell';
+      } else if (difference > 0) {
+        action = 'buy';
       }
-      sequence.push(order.analyze(analyzedAverages[i].order));
-      times.push(analyzedAverages[i].time);
-    }
 
-    var update = [];
-    var create = [];
-    for (var i = 1; i < sequence.length; i++) {
-      var prev = sequence[i - 1];
-      var curr = sequence[i];
-
-      if (prev !== curr && curr !== 0) {
-        var type = 'buy';
-        if (curr < prev) {
-          type = 'sell';
-        }
-
-        var time = times[i];
-
-        if (trends[time]) {
-          var model = trends[time];
-          model.type = type;
-          update.push(model);
-          delete times[time];
-        } else {
-          create.push(models.Trend.build({
-            time: time,
-            key: key,
-            type: type
-          }));
-        }
+      var model = trends[time];
+      if (!model) {
+        model = models.Trend.build({
+          time: time,
+          key: key
+        });
       }
-    }
 
-    async.parallel([
-      function(cb) {
-        if (!update || !update.length) {
-          return cb();
-        }
+      model.type = action;
+      model.difference = difference;
 
-        async.each(update, function(m, cb) {
-          m.save().then(function() {
-            cb();
-          }).catch(cb);
-        }, cb);
-      },
-      function(cb) {
-        if (!create || !create.length) {
-          return cb();
-        }
+      saveThese.push(model);
+    });
 
-        async.each(create, function(m, cb) {
-          m.save().then(function() {
-            cb()
-          }).catch(cb);
-        }, cb);
-      }
-    ], done);
+    async.each(saveThese, function(m, cb) {
+      m.save().success(function() {
+        cb();
+      }).error(cb);
+    }, done);
   });
 
 
