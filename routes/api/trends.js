@@ -4,7 +4,7 @@ var models = require('../../lib/models');
 var async = require('async');
 var _ = require('lodash');
 var moment = require('moment');
-var Sequelize = require('../lib/sequelize');
+var Sequelize = require('../../lib/sequelize');
 
 router.get('/:key', function(req, res, next) {
 
