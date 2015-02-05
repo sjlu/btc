@@ -6,7 +6,8 @@ client.config(['$routeProvider', '$locationProvider', function($routeProvider, $
     '/chart/price': 'priceChart',
     '/chart/rainbow': 'rainbowChart',
     '/chart/triple': 'tripleChart',
-    '/trends': 'trends'
+    '/trends': 'trends',
+    '/chart/trends': 'trendChart'
   };
 
   for (var route in routes) {
