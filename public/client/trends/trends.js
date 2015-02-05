@@ -1,6 +1,7 @@
 client.controller('trends', function($scope, $http) {
   $scope.rate = 900;
   $scope.algo = 'dema';
+  $scope.threshold = 0;
 
   $scope.getData = function() {
     $http.get('/api/trends/'+$scope.algo+'-'+$scope.rate+'-8,24,40').success(function(data) {

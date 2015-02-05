@@ -13,6 +13,10 @@ div.trends
   div.form-group
     rate-picker(ng-model="rate" ng-change="getData();")
 
+  div.form-group
+    label(for="threshold")
+    input.corm-control(type="text" id="threshold" ng-model="threshold" ng-change="getData();")
+
   table.table.table-bordered
     thead
       th
