@@ -9,7 +9,7 @@ var Sequelize = require('../../lib/sequelize');
 router.get('/:key', function(req, res, next) {
 
   var start = moment().subtract(req.query.hoursAgo || 6, 'hours').valueOf();
-  var threshold = req.query.threshold;
+  var threshold = req.query.threshold || 0;
 
   models.Trend.findAll({
     where: Sequelize.and(
