@@ -53,7 +53,7 @@ module.exports = function(job, done) {
 
     var saveThese = [];
     _.each(groupedAverages, function(averages, time) {
-      if (a.length !== depths.length) {
+      if (averages.length !== depths.length) {
         return;
       }
 
