@@ -11,7 +11,9 @@ module.exports = function(job, done) {
   models.Trade.find({
     limit: 1,
     order: 'trade_id DESC'
-  }).then(function(trade) {
+  }).complete(function(err, trade) {
+    if (err) return done(err);
+
     var startAt = 0;
     if (trade) {
       startAt = trade.trade_id;
@@ -30,10 +32,8 @@ module.exports = function(job, done) {
         }
       });
 
-      models.Trade.bulkCreate(formattedTrades).then(function() {
-        done();
-      }).catch(done);
+      models.Trade.bulkCreate(formattedTrades).complete(done);
     });
-  }).catch(done);
+  });
 
 }

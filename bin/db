@@ -5,9 +5,7 @@ var winston = require('../lib/winston');
 var _ = require('lodash');
 
 async.each(_.values(models), function(m, cb) {
-  m.sync().then(function() {
-    cb();
-  }).catch(cb);
+  m.sync().complete(cb);
 }, function(err) {
   if (err) {
     return winston.error(err);

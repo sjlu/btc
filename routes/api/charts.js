@@ -13,9 +13,10 @@ router.get('/price', function(req, res, next) {
     },
     order: 'time desc',
     limit: 100
-  }).then(function(rates) {
+  }).complete(function(err, rates) {
+    if (err) return next(err);
     res.json(rates);
-  }).catch(next);
+  });
 })
 
 router.get('/:type/:granularity', function(req, res, next) {
@@ -34,9 +35,7 @@ router.get('/:type/:granularity', function(req, res, next) {
             gte: start.valueOf()
           }
         }
-      }).then(function(averages) {
-        cb(null, averages)
-      }).catch(cb);
+      }).complete(cb);
     },
     rates: function(cb) {
       models.Rate.findAll({
@@ -46,9 +45,7 @@ router.get('/:type/:granularity', function(req, res, next) {
             gte: start.valueOf()
           }
         }
-      }).then(function(rates) {
-        cb(null, rates)
-      }).catch(cb);
+      }).complete(cb);
     }
   }, function(err, data) {
     if (err) return next(err);

@@ -10,9 +10,10 @@ router.get('/:key', function(req, res, next) {
       key: req.params.key
     },
     order: 'time desc'
-  }).then(function(trends) {
-    async.map(trends, function(trend, cb) {
+  }).complete(function(err, trends) {
+    if (err) return next(err);
 
+    async.map(trends, function(trend, cb) {
       models.Trade.findAll({
         where: {
           time: {
@@ -20,7 +21,8 @@ router.get('/:key', function(req, res, next) {
             lt: trend.time + trend.granularity * 1000
           }
         }
-      }).then(function(trades) {
+      }).complete(function(err, trades) {
+        if (err) return cb(err);
 
         var sum = 0;
         _.each(trades, function(t) {
@@ -30,14 +32,12 @@ router.get('/:key', function(req, res, next) {
         trend = trend.toJSON();
         trend.price = sum / trades.length;
         cb(null, trend);
-      }).catch(cb);
+      })
     }, function(err, trends) {
       if (err) return next(err);
       res.json(trends);
     });
-
-
-  }).catch(next);
+  });
 });
 
 module.exports = router;

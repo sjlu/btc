@@ -34,7 +34,8 @@ module.exports = function(job, done) {
         }
       },
       order: 'time asc'
-    }).then(function(trades) {
+    }).complete(function(err, trades) {
+      if (err) return cb(err);
       if (!trades || !trades.length) return cb();
 
       winston.verbose('creating rate', {
@@ -59,7 +60,8 @@ module.exports = function(job, done) {
           time: frame.start.valueOf(),
           granularity: granularity
         }
-      }).then(function(rate) {
+      }).complete(function(err, rate) {
+        if (err) return cb(err);
         if (!rate) {
           rate = models.Rate.build({
             time: frame.start.valueOf(),
@@ -73,10 +75,8 @@ module.exports = function(job, done) {
         rate.high = high;
         rate.volume = volume;
 
-        rate.save().then(function(){
-          cb();
-        }).catch(cb);
-      }).catch(cb);
-    }).catch(cb);
+        rate.save().complete(cb);
+      });
+    });
   }, done);
 }

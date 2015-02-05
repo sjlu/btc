@@ -88,7 +88,8 @@ module.exports = function(job, done) {
     },
     order: 'time DESC',
     limit: depth * 2
-  }).then(function(rates) {
+  }).complete(function(err, rates) {
+    if (err) return done(err);
     if (!rates || !rates.length) {
       return done();
     }
@@ -108,18 +109,17 @@ module.exports = function(job, done) {
 
       models.Average.find({
         where: baseObj
-      }).then(function(average) {
+      }).complete(function(err, average) {
+        if (err) return cb(err);
         if (!average) {
           average = models.Average.build(baseObj);
         }
 
         average.value = value;
 
-        average.save().then(function() {
-          cb();
-        }).catch(cb);
-      }).catch(cb);
+        average.save().complete(cb);
+      });
     }, done);
-  }).catch(done);
+  });
 
 }
