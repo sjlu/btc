@@ -19,8 +19,7 @@ client.controller('trendChart', function($scope, $http) {
       }
     },
     series: [
-      {y: 'difference', axis: 'y1', color: '#F7977A', drawDots: true, dotSize: 2},
-      {y: 'close', axis: 'y1', color: 'black', drawDots: true, dotSize: 2, visible: false}
+      {y: 'difference', axis: 'y1', color: '#F7977A', drawDots: true, dotSize: 2}
     ],
     stacks: [],
     lineMode: "linear",

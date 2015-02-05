@@ -8,26 +8,18 @@ describe(__filename, function() {
     var key = models.Trend.buildKey('dema', 60, [48, 72, 16]);
     expect(key).to.equal('dema-60-16,48,72');
   });
-
-  it('[8,16,32] identify as -1', function() {
-    var difference = models.Trend.identifyDifference([8,16,32]);
-    expect(difference).to.equal(-1);
-  });
-  it('[16,8,32] identify as 0', function() {
-    var difference = models.Trend.identifyDifference([16,8,32]);
-    expect(difference).to.equal(0);
-  });
-  it('[16,32,8] identify as 1', function() {
-    var difference = models.Trend.identifyDifference([16,32,8]);
-    expect(difference).to.equal(1);
-  });
-
-  it('difference positive', function() {
-    var difference = models.Trend.identifyDifference([16,32,8], [27, 30, 3]);
-    expect(difference).to.equal(0.9);
-  })
-  it('difference negative', function() {
-    var difference = models.Trend.identifyDifference([8,16,32], [3, 30, 33]);
-    expect(difference).to.equal(-0.9);
+  describe("difference", function() {
+    it('should identify negatively', function() {
+      var diff = models.Trend.computeDifference([{depth:8,value:1},{depth:16,value:2},{depth:32,value:3}])
+      expect(diff).to.be.lessThan(0);
+    });
+    it('should identify postively', function() {
+      var diff = models.Trend.computeDifference([{depth:8,value:3},{depth:16,value:2},{depth:32,value:1}])
+      expect(diff).to.be.greaterThan(0);
+    });
+    it('should identify as zero', function() {
+      var diff = models.Trend.computeDifference([{depth:8,value:2},{depth:16,value:1},{depth:32,value:3}])
+      expect(diff).to.equal(0);
+    });
   })
 });

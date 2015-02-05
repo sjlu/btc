@@ -56,13 +56,7 @@ module.exports = function(job, done) {
         return;
       }
 
-      averages = _.sortBy(averages, function(a) {
-        return a.value;
-      });
-
-      var depthOrder = _.pluck(averages, "depth");
-      var prices = _.pluck(averages, "value");
-      var difference = models.Trend.identifyDifference(depthOrder, prices);
+      var difference = models.Trend.computeDifference(averages);
 
       var action = 'hold';
       if (difference < 0) {
