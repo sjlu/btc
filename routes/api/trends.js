@@ -27,7 +27,7 @@ router.get('/:key', function(req, res, next) {
           lte: -1*threshold
         }
       })
-    },
+    }),
     order: 'time desc'
   }).complete(function(err, trends) {
     if (err) return next(err);
