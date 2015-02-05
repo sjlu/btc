@@ -4,7 +4,7 @@ client.controller('trendChart', function($scope, $http) {
 
   $scope.getData = function() {
     var hours = $scope.rate / 60;
-    $http.get('/api/trends/'+$scope.algo+'-'+$scope.rate+'-8,24,40&hoursAgo='+hours).success(function(data) {
+    $http.get('/api/trends/'+$scope.algo+'-'+$scope.rate+'-8,24,40/?hoursAgo='+hours).success(function(data) {
       $scope.data = data;
     });
   }
