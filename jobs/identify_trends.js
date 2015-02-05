@@ -58,13 +58,6 @@ module.exports = function(job, done) {
 
       var difference = models.Trend.computeDifference(averages);
 
-      var action = 'hold';
-      if (difference < 0) {
-        action = 'sell';
-      } else if (difference > 0) {
-        action = 'buy';
-      }
-
       var model = trends[time];
       if (!model) {
         model = models.Trend.build({
@@ -73,9 +66,7 @@ module.exports = function(job, done) {
         });
       }
 
-      model.type = action;
       model.difference = difference;
-
       saveThese.push(model);
     });
 
