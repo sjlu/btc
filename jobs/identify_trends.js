@@ -86,7 +86,7 @@ module.exports = function(job, done) {
     });
 
     async.each(saveThese, function(m, cb) {
-      m.save().compete(cb);
+      m.save().complete(cb);
     }, done);
   });
 
