@@ -3,7 +3,7 @@ var router = express.Router();
 var models = require('../../lib/models');
 var async = require('async');
 var _ = require('lodash');
-var time = require('../../lib/time');
+var moment = require('moment');
 
 router.get('/:key', function(req, res, next) {
 
