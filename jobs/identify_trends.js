@@ -29,9 +29,7 @@ module.exports = function(job, done) {
             lt: end
           }
         }
-      }).success(function(averages) {
-        cb(null, averages);
-      }).error(cb);
+      }).complete(cb);
     },
     trends: function(cb) {
       models.Trend.findAll({
@@ -41,9 +39,7 @@ module.exports = function(job, done) {
           },
           key: key
         }
-      }).success(function(trends) {
-        cb(null, trends);
-      }).error(cb);
+      }).complete(cb);
     }
   }, function(err, data) {
     if (err) return done(err);
@@ -90,9 +86,7 @@ module.exports = function(job, done) {
     });
 
     async.each(saveThese, function(m, cb) {
-      m.save().success(function() {
-        cb();
-      }).error(cb);
+      m.save().compete(cb);
     }, done);
   });
 
