@@ -31,7 +31,8 @@ router.get('/:key', function(req, res, next) {
         })
       )
     },
-    order: 'time desc'
+    order: 'time desc',
+    logging: console.log
   }).complete(function(err, trends) {
     if (err) return next(err);
     res.json(trends);
