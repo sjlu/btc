@@ -62,7 +62,8 @@ module.exports = function(job, done) {
       });
 
       var depthOrder = _.pluck(averages, "depth");
-      var difference = order.analyzeDeep(depthOrder);
+      var prices = _.pluck(averages, "value");
+      var difference = models.Trend.identifyDifference(depthOrder, prices);
 
       var action = 'hold';
       if (difference < 0) {
