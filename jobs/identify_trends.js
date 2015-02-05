@@ -61,7 +61,7 @@ module.exports = function(job, done) {
         return;
       }
 
-      averages = _.sortBy(a, function(a) {
+      averages = _.sortBy(averages, function(a) {
         return a.value;
       });
 
