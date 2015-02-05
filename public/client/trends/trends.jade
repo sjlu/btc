@@ -20,8 +20,6 @@ div.trends
       th
         | type
       th
-        | price
-      th
         | difference
     tbody
       tr(ng-repeat="row in data")
@@ -29,7 +27,5 @@ div.trends
           | {{row.time}}
         td
           | {{row.type}}
-        td
-          | {{row.price | number:2}}
         td
           | {{row.difference * 100 | number:4}}%
