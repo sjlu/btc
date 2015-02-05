@@ -3,7 +3,8 @@ client.controller('trendChart', function($scope, $http) {
   $scope.algo = 'dema';
 
   $scope.getData = function() {
-    $http.get('/api/trends/'+$scope.algo+'-'+$scope.rate+'-8,24,40').success(function(data) {
+    var hours = $scope.rate / 60;
+    $http.get('/api/trends/'+$scope.algo+'-'+$scope.rate+'-8,24,40&hoursAgo='+hours).success(function(data) {
       $scope.data = data;
     });
   }
