@@ -13,21 +13,24 @@ router.get('/:key', function(req, res, next) {
 
   models.Trend.findAll({
     where:
-      Sequelize.and({
-        key: req.params.key,
-        time: {
-          gte: start
-        }
-      }, Sequelize.or({
-        difference: {
-          gte: threshold
+      Sequelize.and(
+        {
+          key: req.params.key,
+          time: {
+            gte: start
+          }
         },
-      }, {
-        difference: {
-          lte: -1*threshold
-        }
-      })
-    }),
+        Sequelize.or({
+          difference: {
+            gte: threshold
+          },
+        }, {
+          difference: {
+            lte: -1*threshold
+          }
+        })
+      )
+    },
     order: 'time desc'
   }).complete(function(err, trends) {
     if (err) return next(err);
