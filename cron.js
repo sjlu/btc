@@ -22,6 +22,11 @@ var rates = [
 
 var periods = _.range(8,80,8);
 
+// trade logic
+cronJobs.push(new CronJob('00 * * * * *', function() {
+  jobs.create('make_actions', {}).save();
+}));
+
 // fast, per 12 seconds
 cronJobs.push(new CronJob('*/12 * * * * *', function() {
   async.series([
