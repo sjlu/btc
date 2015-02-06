@@ -17,7 +17,7 @@ module.exports = function(job, done) {
     function(action, cb) {
       action = action || {
         time: 0,
-        action: 'sell'
+        type: 'sell'
       }
 
       var where = {
@@ -29,7 +29,7 @@ module.exports = function(job, done) {
         }
       };
 
-      if (action === 'buy') {
+      if (action.type === 'buy') {
         where.difference = {
           lte: -0.0002
         };
