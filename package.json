@@ -61,6 +61,7 @@
     "sequelize": "^2.0.0-rc8",
     "static-favicon": "~1.0.0",
     "stylus": "0.42.3",
+    "twilio": "^1.10.0",
     "winston": "^0.8.3"
   },
   "devDependencies": {

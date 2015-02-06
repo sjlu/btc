@@ -20,5 +20,13 @@ describe(__filename, function() {
       expect(trades).to.be.object;
       done();
     });
-  })
+  });
+
+  it('should get the best sell/buy bid', function(done) {
+    coinbase.getBestBids(function(err, data) {
+      expect(err).to.be.null;
+      expect(data).to.be.object;
+      done();
+    });
+  });
 });
