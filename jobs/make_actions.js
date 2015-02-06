@@ -8,6 +8,8 @@ var moment = require('moment');
 
 module.exports = function(job, done) {
 
+  var timeStart = moment().valueOf();
+
   async.waterfall([
     function(cb) {
       models.Action.find({
@@ -88,7 +90,7 @@ module.exports = function(job, done) {
     },
     function(action, bids, cb) {
       models.Action.create({
-        time: moment().valueOf(),
+        time: timeStart,
         type: action,
         value: (bids.buy + bids.sell) / 2
       }).done(cb);
