@@ -48,6 +48,10 @@ module.exports = function(job, done) {
       });
     },
     function(trends, action, cb) {
+      if (!trends || !trends.length) {
+        return cb(true);
+      }
+
       var trendTimesByKey = {};
       _.each(trends, function(t) {
         if (!trendTimesByKey[t.key]) {
