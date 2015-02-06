@@ -25,7 +25,7 @@ module.exports = function(job, done) {
           gte: action.time
         },
         key: {
-          $in: ['dema-600-8,24,40']
+          in: ['dema-600-8,24,40']
         }
       };
 

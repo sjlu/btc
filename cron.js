@@ -28,7 +28,7 @@ cronJobs.push(new CronJob('00 * * * * *', function() {
 }, null, true));
 
 // fast, per 12 seconds
-cronJobs.push(new CronJob('*/12 * * * * *', function() {
+cronJobs.push(new CronJob('0,12,24,36,48 * * * * *', function() {
   async.series([
     function(cb) {
       jobs.create('sync_trades', {}).save(cb);
