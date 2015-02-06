@@ -1,6 +1,6 @@
 client.controller('tripleChart', function($scope, $http, $routeParams) {
 
-  $scope.rate = 900;
+  $scope.rate = 600;
   $scope.algo = 'dema';
   $scope.data = [];
 

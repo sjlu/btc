@@ -1,7 +1,7 @@
 client.controller('trends', function($scope, $http) {
-  $scope.rate = 900;
+  $scope.rate = 600;
   $scope.algo = 'dema';
-  $scope.threshold = 0;
+  $scope.threshold = 0.2;
 
   $scope.getData = function() {
     var threshold = $scope.threshold / 100;

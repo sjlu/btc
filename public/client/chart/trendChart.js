@@ -1,5 +1,5 @@
 client.controller('trendChart', function($scope, $http) {
-  $scope.rate = 900;
+  $scope.rate = 600;
   $scope.algo = 'dema';
 
   $scope.getData = function() {
