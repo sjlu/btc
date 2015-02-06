@@ -11,8 +11,7 @@ module.exports = function(job, done) {
   async.waterfall([
     function(cb) {
       models.Action.find({
-        order: 'time desc',
-        limit: 1
+        order: 'time desc'
       }).done(cb);
     },
     function(action, cb) {
