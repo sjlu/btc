@@ -14,6 +14,11 @@ module.exports = function(job, done) {
       }).done(cb);
     },
     function(action, cb) {
+      action = action || {
+        time: 0,
+        action: 'sell'
+      }
+
       var where = {
         time: {
           gte: action.time
