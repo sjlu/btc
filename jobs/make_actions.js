@@ -35,10 +35,12 @@ module.exports = function(job, done) {
         where.difference = {
           lte: -0.0002
         };
+        action = 'sell';
       } else {
         where.difference = {
           gte: 0.0002
         }
+        action = 'buy';
       }
 
       models.Trend.findAll({
@@ -76,11 +78,7 @@ module.exports = function(job, done) {
         return cb(true); // stop here
       }
 
-      if (action === 'buy') {
-        return cb(null, 'sell');
-      } else {
-        return cb(null, 'buy');
-      }
+      cb(null, action);
     },
     function(action, cb) {
       coinbase.getBestBids(function(err, bids) {
@@ -98,7 +96,7 @@ module.exports = function(job, done) {
     function(action, cb) {
       var message = [
         moment(action.time).format('MM/DD hh:mma'),
-        action.type,
+        action.type.toUpperCase(),
         '$' + action.value
       ];
       twilio.sendMessage(message.join(" "), cb);
