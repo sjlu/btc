@@ -4,6 +4,7 @@ var coinbase = require('../lib/coinbase');
 var _ = require('lodash');
 var twilio = require('../lib/twilio');
 var winston = require('../lib/winston');
+var moment = require('moment');
 
 module.exports = function(job, done) {
 
