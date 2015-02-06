@@ -83,10 +83,10 @@ module.exports = function(job, done) {
         cb(null, action, bids);
       })
     },
-    function(bids, cb) {
+    function(action, bids, cb) {
       models.Action.create({
         time: moment().valueOf(),
-        type: type,
+        type: action,
         value: (bids.buy + bids.sell) / 2
       }).done(cb);
     },
