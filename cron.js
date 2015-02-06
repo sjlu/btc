@@ -25,7 +25,7 @@ var periods = _.range(8,80,8);
 // trade logic
 cronJobs.push(new CronJob('00 * * * * *', function() {
   jobs.create('make_actions', {}).save();
-}));
+}, null, true));
 
 // fast, per 12 seconds
 cronJobs.push(new CronJob('*/12 * * * * *', function() {

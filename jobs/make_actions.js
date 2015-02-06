@@ -3,6 +3,7 @@ var async = require('async');
 var coinbase = require('../lib/coinbase');
 var _ = require('lodash');
 var twilio = require('../lib/twilio');
+var winston = require('../lib/winston');
 
 module.exports = function(job, done) {
 
